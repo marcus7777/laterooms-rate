@@ -1,37 +1,110 @@
 <dom-module id="laterooms-rate">
   <template>
-
-        <iron-ajax auto url="{{_url}}" last-response="{{data}}"></iron-ajax>
-        <style>
-          paper-button-date-picker {
-            background: var(--default-background-color)
-            color: var(--text-primary-color);
-          }  
-        </style>
-        <div class="layout center">
-          <div class="box center horizontal layout">
-            <h4>Check in</h4><paper-button-date-picker date="{{checkIn}}" locale="en-gb"></paper-button-date-picker>
-            <paper-input style="width:80px" min="1" max="20" type="number" value="{{nights}}" label="nights"></paper-input>
-            <paper-button hidden="{{show}}" on-tap="showCard">Show</paper-button>
-          </div>
-          <template is="dom-if" if="{{show}}">
-            <div class="layout horizontal">
-              <a style="text-decoration:none;color:#222" href="{{_link}}">
-                <paper-material class="layout middle" style="max-width: 300px;">
-                  <div style="margin:40px 40px;text-align:center;padding: 20px">
-                    Laterooms Rate From
-                    <p>{{rate}}</p>
-                  </div>
-                </paper-material>
-              </a>
-              <content></content>
+    <iron-ajax auto url="{{_url}}" last-response="{{data}}"></iron-ajax>
+    <style>
+      paper-button-date-picker {
+        background: var(--default-background-color)
+        color: var(--text-primary-color);
+      }  
+    </style>
+    <div class="layout center">
+      <div class="box center horizontal layout">
+        <h4>Check in</h4><paper-button-date-picker date="{{checkIn}}" locale="en-gb"></paper-button-date-picker>
+        <paper-input style="width:80px" min="1" max="20" type="number" value="{{nights}}" label="nights"></paper-input>
+        <paper-button hidden="{{show}}" on-tap="showCard">Show</paper-button>
+      </div>
+      <template is="dom-if" if="{{show}}">
+        <div class="layout horizontal">
+          <paper-material class="layout middle" style="max-width: 300px;">
+            <div style="margin:40px 40px;text-align:center;padding: 20px">
+              Laterooms Rate From
+            <p>{{rate}}</p>
             </div>
-          </template>
+          </paper-material>
         </div>
+      </template>
+    </div>
   </template>
 </dom-module>
 <script>
   Polymer({
-    is: "laterooms-rate"
-  });
+    is: "laterooms-rate",
+    properties: {
+      day: {computed: 'getDay(checkIn)'},
+      month: {computed: 'getMonth(checkIn)'},
+      year: {computed: 'getYear(checkIn)'},
+      nights: {type: Number, value: 1},
+      url: {value:'http://www.laterooms.com/en/p'},
+      hotelId: {value: 69407},
+      affiliateid: {value: 3095},
+      _url: {computed: 'getUrl(day, month, year, nights, hotelId, affiliateid, server)'},
+      link: {computed: 'getLink(url, day, month, year, nights, hotelId, affiliateid)'},
+      rate: {computed: 'getRate(data)'},
+      server:{value: "/bower_components/laterooms-ratepicker/server/"}
+    },
+    showCard: function () {this.show = true},
+    getDay: function (checkIn) { return checkIn.getDate() },
+    getMonth: function (checkIn) { return checkIn.getMonth() + 1 },
+    getYear: function (checkIn) { return checkIn.getFullYear() },
+    getUrl: function (day, month, year, nights, hotelId, affiliateid, server) {
+      return server + '?u=%3Faid%3D' + affiliateid + '%26rtype%3D7%26hids%3D' + hotelId + '%26sdate%3D' + year + '-' + month + '-' + day + '%26nights%3D' + nights
+    },
+    getLink: function (url, day, month, year, nights, hotelId, affiliateid) {
+      if (('' + day).length === 1) day = '0' + day
+      if (('' + month).length === 1) month = '0' + month
+      return url + '' + affiliateid +
+      '/hotel-reservations/' + hotelId + '.aspx?d=' + year + month + day +
+      '&n=' + nights + '&rt=2-0&adult=2&child=0'
+      // working link http://www.laterooms.com/en/p3095/hotel-reservations/73022.aspx?d=20151201&n=4&rt=2-0&adult=2&child=0
+    },
+    getRate: function (data) {
+      var rates = []
+      if (data.hasOwnProperty('lr_rates') &&
+        data.lr_rates.hasOwnProperty('hotel') &&
+        data.lr_rates.hotel.hasOwnProperty('hotel_rooms') &&
+        data.lr_rates.hotel.hotel_rooms.hasOwnProperty('room') &&
+        Array.isArray(data.lr_rates.hotel.hotel_rooms.room)) {
+        for (var index = 0; index < data.lr_rates.hotel.hotel_rooms.room.length; ++index) {
+          var room = 0
+    
+          for (var indexRate = 0; indexRate < data.lr_rates.hotel.hotel_rooms.room[index].rate.length; ++indexRate) {
+            if (data.lr_rates.hotel.hotel_rooms.room[index].rate[indexRate].numeric_price !== "Full") {
+              room = room + (data.lr_rates.hotel.hotel_rooms.room[index].rate[indexRate].numeric_price * 1)
+            }
+          }
+          if (room === 0) {
+            if (data.lr_rates.hotel.hotel_rooms.room[index].rate.numeric_price !== "Full") {
+              room = room + (data.lr_rates.hotel.hotel_rooms.room[index].rate.numeric_price * 1)
+            }
+          }
+          if (room !== 0) {
+            rates.push(room)
+          }
+        } 
+      } else if (data.hasOwnProperty('lr_rates') &&
+        data.lr_rates.hasOwnProperty('hotel') &&
+        data.lr_rates.hotel.hasOwnProperty('hotel_rooms') &&
+        data.lr_rates.hotel.hotel_rooms.hasOwnProperty('room')) {
+        var room = 0
+        for (var indexRate = 0; indexRate < data.lr_rates.hotel.hotel_rooms.room[index].rate.length; ++indexRate) {
+          if (data.lr_rates.hotel.hotel_rooms.room.rate[indexRate].numeric_price !== "Full") {
+            room = room + (data.lr_rates.hotel.hotel_rooms.room.rate[indexRate].numeric_price * 1)
+          }
+        }
+        if (room === 0) {
+          if (data.lr_rates.hotel.hotel_rooms.room.rate.numeric_price !== "Full") {
+            room = room + (data.lr_rates.hotel.hotel_rooms.room.rate.numeric_price * 1)
+          }
+        } 
+        if (room !== 0) {
+          rates.push(room)
+        }
+      }
+      if (rates.length > 0 && rates.sort()[rates.length - 1] > 1) {
+        return '£' + rates.sort()[rates.length - 1].toFixed(2)
+      } else {
+        return 'No rates available'
+      }
+    }
+  })
 </script>
