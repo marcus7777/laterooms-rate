@@ -1,0 +1,19 @@
+{
+  "name": "laterooms-rate",
+  "version": "1.0.0",
+  "description": "laterooms-rate",
+  "main": "laterooms-rate.html",
+  "keywords": [
+    "polymer","web-components"
+  ],
+  "dependencies": {
+    "paper-button":"PolymerElements/paper-button",
+    "paper-date-picker": "marcus7777/paper-date-picker#master",
+    "moment-js": "marcus7777/moment-js",
+    "iron-ajax": "PolymerElements/iron-ajax#^1.0.0",
+    "iron-flex-layout": "PolymerElements/iron-flex-layout#^1.0.0",
+    "paper-input": "PolymerElements/paper-input#^1.0.0",
+    "paper-material": "PolymerElements/paper-material#^1.0.0",
+    "iron-icon": "PolymerElements/iron-icon#~1.0.7"
+  }
+}
