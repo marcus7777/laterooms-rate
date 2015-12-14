@@ -12,7 +12,7 @@
     <div class="layout center">
       <div class="layout horizontal">
         <paper-material class="layout middle" style="max-width: 300px;">
-          <div style="margin:40px 40px;text-align:center;padding: 20px">
+          <div style="margin:40px;text-align:center;padding: 20px">
             Laterooms Rate From
             <p>{{rate}}</p>
           </div>
@@ -34,7 +34,7 @@
       affiliateid: {value: 3095},
       _url: {computed: 'getUrl(day, month, year, nights, hotelId, affiliateid, server)'},
       link: {computed: 'getLink(url, day, month, year, nights, hotelId, affiliateid)', notify: true},
-      rate: {computed: 'getRate(data)'},
+      rate: {computed: 'getRate(rates)'},
       server:{value: "/bower_components/laterooms-rate/server/"}
     },
     showCard: function () {this.show = true},
@@ -52,54 +52,16 @@
       '&n=' + nights + '&rt=2-0&adult=2&child=0'
       // working link http://www.laterooms.com/en/p3095/hotel-reservations/73022.aspx?d=20151201&n=4&rt=2-0&adult=2&child=0
     },
-    getRate: function (data) {
-      var rates = []
-      if (data.hasOwnProperty('lr_rates') &&
-        data.lr_rates.hasOwnProperty('hotel') &&
-        data.lr_rates.hotel.hasOwnProperty('hotel_rooms') &&
-        data.lr_rates.hotel.hotel_rooms.hasOwnProperty('room') &&
-        Array.isArray(data.lr_rates.hotel.hotel_rooms.room)) {
-        for (var index = 0; index < data.lr_rates.hotel.hotel_rooms.room.length; ++index) {
-          var room = 0
-    
-          for (var indexRate = 0; indexRate < data.lr_rates.hotel.hotel_rooms.room[index].rate.length; ++indexRate) {
-            if (data.lr_rates.hotel.hotel_rooms.room[index].rate[indexRate].numeric_price !== "Full") {
-              room = room + (data.lr_rates.hotel.hotel_rooms.room[index].rate[indexRate].numeric_price * 1)
-            }
-          }
-          if (room === 0) {
-            if (data.lr_rates.hotel.hotel_rooms.room[index].rate.numeric_price !== "Full") {
-              room = room + (data.lr_rates.hotel.hotel_rooms.room[index].rate.numeric_price * 1)
-            }
-          }
-          if (room !== 0) {
-            rates.push(room)
-          }
-        } 
-      } else if (data.hasOwnProperty('lr_rates') &&
-        data.lr_rates.hasOwnProperty('hotel') &&
-        data.lr_rates.hotel.hasOwnProperty('hotel_rooms') &&
-        data.lr_rates.hotel.hotel_rooms.hasOwnProperty('room')) {
-        var room = 0
-        for (var indexRate = 0; indexRate < data.lr_rates.hotel.hotel_rooms.room[index].rate.length; ++indexRate) {
-          if (data.lr_rates.hotel.hotel_rooms.room.rate[indexRate].numeric_price !== "Full") {
-            room = room + (data.lr_rates.hotel.hotel_rooms.room.rate[indexRate].numeric_price * 1)
-          }
-        }
-        if (room === 0) {
-          if (data.lr_rates.hotel.hotel_rooms.room.rate.numeric_price !== "Full") {
-            room = room + (data.lr_rates.hotel.hotel_rooms.room.rate.numeric_price * 1)
-          }
-        } 
-        if (room !== 0) {
-          rates.push(room)
-        }
-      }
-      if (rates.length > 0 && rates.sort()[rates.length - 1] > 1) {
+    getRate: function (rates) {
+      if (rates.length > 0 && rates.filter(isBigEnough).sort()[rates.length - 1] > 1) {
         return '£' + rates.sort()[rates.length - 1].toFixed(2)
       } else {
         return 'No rates available'
       }
     }
   })
+  function isBigEnough(value) {
+    return +value > 1;
+  }
+
 </script>
