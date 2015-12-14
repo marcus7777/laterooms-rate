@@ -4,9 +4,16 @@
     <title>laterooms-rate demo</title>
     <script src="../webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="laterooms-rate.html">
+    <link rel="import" href="../paper-button/paper-button.html">
+    <link rel="import" href="../paper-input/paper-input.html">
+    <link rel="import" href="../paper-date-picker/paper-button-date-picker.html">
   </head>
   <body>
     <h3>laterooms-rate Demo</h3>
-    <laterooms-rate></laterooms-rate>
+    <div class="box center horizontal layout">
+      <h4>Check in</h4><paper-button-date-picker date="{{checkIn}}" locale="en-gb"></paper-button-date-picker>
+      <paper-input style="width:80px" min="1" max="20" type="number" value="{{nights}}" label="nights"></paper-input>
+    </div>
+    <laterooms-rate check-in="{{checkIn}}" nights="{{nights}}" ></laterooms-rate>
   </body>
 </html>
