@@ -59,7 +59,7 @@
         rates.sort(rates_sort)
         var total = 0
         for (var i = 0; i < this.nights; ++i) { // this may get 'bad' results
-          total = total + (+rates.pop())
+          total = total + (+rates.unshift())
         }
         return '£' + total
       } else {
