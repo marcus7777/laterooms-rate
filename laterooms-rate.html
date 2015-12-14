@@ -1,0 +1,37 @@
+<dom-module id="laterooms-rate">
+  <template>
+
+        <iron-ajax auto url="{{_url}}" last-response="{{data}}"></iron-ajax>
+        <style>
+          paper-button-date-picker {
+            background: var(--default-background-color)
+            color: var(--text-primary-color);
+          }  
+        </style>
+        <div class="layout center">
+          <div class="box center horizontal layout">
+            <h4>Check in</h4><paper-button-date-picker date="{{checkIn}}" locale="en-gb"></paper-button-date-picker>
+            <paper-input style="width:80px" min="1" max="20" type="number" value="{{nights}}" label="nights"></paper-input>
+            <paper-button hidden="{{show}}" on-tap="showCard">Show</paper-button>
+          </div>
+          <template is="dom-if" if="{{show}}">
+            <div class="layout horizontal">
+              <a style="text-decoration:none;color:#222" href="{{_link}}">
+                <paper-material class="layout middle" style="max-width: 300px;">
+                  <div style="margin:40px 40px;text-align:center;padding: 20px">
+                    Laterooms Rate From
+                    <p>{{rate}}</p>
+                  </div>
+                </paper-material>
+              </a>
+              <content></content>
+            </div>
+          </template>
+        </div>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+    is: "laterooms-rate"
+  });
+</script>
