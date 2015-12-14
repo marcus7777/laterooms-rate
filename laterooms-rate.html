@@ -1,38 +1,21 @@
 <link rel="import" href="../paper-material/paper-material.html">
-<link rel="import" href="../paper-button/paper-button.html">
-<link rel="import" href="../paper-input/paper-input.html">
-<link rel="import" href="../paper-date-picker/paper-button-date-picker.html">
 <link rel="import" href="../iron-ajax/iron-ajax.html">
-<link rel="import" href="../user-badges/user-badges.html">
 <!--
-`<laterooms-rate>` list laterooms rate for time in a hotel
+`<laterooms-rate check-in="{{checkIn}}" nights="{{nights}}" ></laterooms-rate>` list laterooms rate for time in a hotel
 @demo demo.html
 -->
 <dom-module id="laterooms-rate">
   <template>
     <iron-ajax auto url="{{_url}}" last-response="{{data}}"></iron-ajax>
-    <style>
-      paper-button-date-picker {
-        background: var(--default-background-color)
-        color: var(--text-primary-color);
-      }  
-    </style>
     <div class="layout center">
-      <div class="box center horizontal layout">
-        <h4>Check in</h4><paper-button-date-picker date="{{checkIn}}" locale="en-gb"></paper-button-date-picker>
-        <paper-input style="width:80px" min="1" max="20" type="number" value="{{nights}}" label="nights"></paper-input>
-        <paper-button hidden="{{show}}" on-tap="showCard">Show</paper-button>
-      </div>
-      <template is="dom-if" if="{{show}}">
-        <div class="layout horizontal">
-          <paper-material class="layout middle" style="max-width: 300px;">
-            <div style="margin:40px 40px;text-align:center;padding: 20px">
-              Laterooms Rate From
+      <div class="layout horizontal">
+        <paper-material class="layout middle" style="max-width: 300px;">
+          <div style="margin:40px 40px;text-align:center;padding: 20px">
+            Laterooms Rate From
             <p>{{rate}}</p>
-            </div>
-          </paper-material>
-        </div>
-      </template>
+          </div>
+        </paper-material>
+      </div>
     </div>
   </template>
 </dom-module>
