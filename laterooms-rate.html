@@ -54,7 +54,8 @@
       // working link http://www.laterooms.com/en/p3095/hotel-reservations/73022.aspx?d=20151201&n=4&rt=2-0&adult=2&child=0
     },
     getRate: function (rates) {
-      if (rates.length > 0 && rates.filter(isBigEnough).sort()[rates.length - 1] > 1) {
+      rates = rates.filter(isBigEnough)
+      if (rates.length > 0 && rates.sort()[rates.length - 1] > 1) {
         return '£' + rates.sort()[rates.length - 1].toFixed(2)
       } else {
         return 'No rates available'
