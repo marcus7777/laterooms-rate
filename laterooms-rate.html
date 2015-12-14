@@ -1,5 +1,6 @@
 <link rel="import" href="../paper-material/paper-material.html">
 <link rel="import" href="../iron-ajax/iron-ajax.html">
+
 <!--
 `<laterooms-rate check-in="{{checkIn}}" nights="{{nights}}" ></laterooms-rate>` list laterooms rate for time in a hotel
 @demo demo.html
@@ -7,6 +8,7 @@
 <dom-module id="laterooms-rate">
   <template>
     <iron-ajax auto url="{{_url}}" last-response="{{data}}"></iron-ajax>
+    <json-select json="{{data}}" select=".room .numeric_price" output="{{rates}}"></json-select>
     <div class="layout center">
       <div class="layout horizontal">
         <paper-material class="layout middle" style="max-width: 300px;">
