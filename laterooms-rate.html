@@ -55,12 +55,12 @@
     },
     getRate: function (rates, nights) {
       rates.filter(isBigEnough)
-      rates.sort(rates_sort)
-      var total = 0
-      for (var i = 0; i < +nights; ++i) { // this may get 'bad' results
-        total = total + (+rates.pop())
-      }
       if (rates.length > 0) {
+        rates.sort(rates_sort)
+        var total = 0
+        for (var i = 0; i < +nights; ++i) { // this may get 'bad' results
+          total = total + (+rates.pop())
+        }
         return '£' + total
       } else {
         return 'No rates available'
