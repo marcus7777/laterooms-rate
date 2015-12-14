@@ -1,17 +1,4 @@
 <?php
-/**
-teamWeather.com and Zenzel Technologies
-Any-Origin for PHP Frameworks
-Copyright 2014 Christopher Zenzel.
-All Rights Reserved.
-http://zenzel.com
-http://teamweather.com
-support - at - teamweather.com
-License:
-This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License. To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/4.0/.
-needs 
-sudo apt-get install php5-curl
- **/
 /* Do not modify this line because of request limits set for Azure. */
 ini_set('memory_limit', '1024K');
 /* Do not modify above this line. */
@@ -51,26 +38,13 @@ header('Access-Control-Allow-Origin: *');
 /* Safety Feature */
 header('Content-Type: text/plain');
 /* Continue */
-$xml_string =  _curl_get_data(urldecode('https%3A//book.api.ean.com/ean-services/rs/hotel/v3/avail'.$client_url));
+$xml_string = _get_data(urldecode('http%3A//xmlfeed.laterooms.com/index.aspx'.$client_url));
 $xml = simplexml_load_string($xml_string);
 $json = json_encode($xml);
 // $array = json_decode($json,TRUE);
 echo $json;
-function _curl_get_data ($url) {
-	global $user_agent_full, $ao_post, $ao_post_active, $ao_user_origin;
-	$ch = curl_init();
-	$timeout = 5;
-	curl_setopt($ch, CURLOPT_URL, $url);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-	curl_setopt($ch, CURLOPT_POST, $ao_post_active);
-	curl_setopt($ch, CURLOPT_POSTFIELDS, $ao_post);
-	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-	curl_setopt($ch, CURLOPT_REFERER, $ao_user_origin);
-	curl_setopt($ch, CURLOPT_USERAGENT, $user_agent_full);
-	$data = curl_exec($ch);
-	curl_close($ch);
-	return $data;
+function _get_data ($url) {
+  return file_get_contents($url);
 }
 function parseRequestHeaders() {
 	$headers = array();
