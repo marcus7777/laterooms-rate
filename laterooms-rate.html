@@ -55,8 +55,9 @@
     },
     getRate: function (rates) {
       rates = rates.filter(isBigEnough)
+      rates.sort(rates_sort)
       if (rates.length > 0) {
-        return '£' + rates.sort()[rates.length - 1].toFixed(2)
+        return '£' + +(rates[rates.length - 1]).toFixed(2)
       } else {
         return 'No rates available'
       }
@@ -64,6 +65,9 @@
   })
   function isBigEnough(value) {
     return +value > 1;
+  }
+  function rates_sort(a,b) {
+    return +a > +b;
   }
 
 </script>
