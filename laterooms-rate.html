@@ -31,7 +31,7 @@
       hotelId: {value: 69407},
       affiliateid: {value: 3095},
       _url: {computed: 'getUrl(day, month, year, nights, hotelId, affiliateid, server)'},
-      link: {computed: 'getLink(url, day, month, year, nights, hotelId, affiliateid)'},
+      link: {computed: 'getLink(url, day, month, year, nights, hotelId, affiliateid)', notify: true},
       rate: {computed: 'getRate(data)'},
       server:{value: "/bower_components/laterooms-rate/server/"}
     },
