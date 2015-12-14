@@ -3,7 +3,7 @@
 <link rel="import" href="../json-select/json-select.html">
 
 <!--
-`<laterooms-rate check-in="{{checkIn}}" nights="{{nights}}" ></laterooms-rate>` list laterooms rate for time in a hotel
+`<laterooms-rate date="{{date}}" nights="{{nights}}" affiliate-id="{{affiliateId}}" url="{{url}}"></laterooms-rate>` list laterooms rate for time in a hotel
 @demo demo.html
 -->
 <dom-module id="laterooms-rate">
@@ -26,13 +26,13 @@
   Polymer({
     is: "laterooms-rate",
     properties: {
-      day: {computed: 'getDay(checkIn)'},
-      month: {computed: 'getMonth(checkIn)'},
-      year: {computed: 'getYear(checkIn)'},
+      day: {computed: 'getDay(date)'},
+      month: {computed: 'getMonth(date)'},
+      year: {computed: 'getYear(date)'},
       nights: {type: Number, value: 1},
       url: {value:'http://www.laterooms.com/en/p'},
       hotelId: {value: 69407},
-      affiliateid: {value: 3095},
+      affiliateId: {value: 3095},
       _url: {computed: 'getUrl(day, month, year, nights, hotelId, affiliateid, server)'},
       link: {computed: 'getLink(url, day, month, year, nights, hotelId, affiliateid)', notify: true},
       rate: {computed: 'getRate(rates)'},
