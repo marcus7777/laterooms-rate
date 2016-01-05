@@ -26,6 +26,7 @@
   Polymer({
     is: "laterooms-rate",
     properties: {
+      date:{type: Date, value: new Date()},
       day: {computed: 'getDay(date)'},
       month: {computed: 'getMonth(date)'},
       year: {computed: 'getYear(date)'},
