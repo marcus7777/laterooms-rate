@@ -35,7 +35,7 @@
       hotelId: {value: 69407},
       affiliateId: {value: 3095},
       _url: {computed: 'getUrl(day, month, year, nights, hotelId, affiliateId, server)'},
-      link: {computed: 'getLink(url, day, month, year, nights, hotelId, affiliateId)', notify: true},
+      link: {computed: 'getLink(url, day, month, year, nights, hotelId, affiliateId, rate)', notify: true},
       rate: {computed: 'getRate(rates, moneySym, nights)'},
       server: {value: "/bower_components/laterooms-rate/server/index.php"},
       moneySym: {value:"£"}
@@ -47,13 +47,15 @@
     getUrl: function (day, month, year, nights, hotelId, affiliateid, server) {
       return server + '?u=%3Faid%3D' + affiliateid + '%26rtype%3D7%26hids%3D' + hotelId + '%26sdate%3D' + year + '-' + month + '-' + day + '%26nights%3D' + nights
     },
-    getLink: function (url, day, month, year, nights, hotelId, affiliateid) {
-      if (('' + day).length === 1) day = '0' + day
-      if (('' + month).length === 1) month = '0' + month
-      return url + '' + affiliateid +
-      '/hotel-reservations/' + hotelId + '.aspx?d=' + year + month + day +
-      '&n=' + nights + '&rt=2-0&adult=2&child=0'
-      // working link http://www.laterooms.com/en/p3095/hotel-reservations/73022.aspx?d=20151201&n=4&rt=2-0&adult=2&child=0
+    getLink: function (url, day, month, year, nights, hotelId, affiliateid, rate) {
+      if (rate) {
+        if (('' + day).length === 1) day = '0' + day
+        if (('' + month).length === 1) month = '0' + month
+        return url + '' + affiliateid +
+        '/hotel-reservations/' + hotelId + '.aspx?d=' + year + month + day +
+        '&n=' + nights + '&rt=2-0&adult=2&child=0'
+        // working link http://www.laterooms.com/en/p3095/hotel-reservations/73022.aspx?d=20151201&n=4&rt=2-0&adult=2&child=0
+      }
     },
     getRate: function (rates, moneySym, nights) {
       rates = rates.filter(isBigEnough)
