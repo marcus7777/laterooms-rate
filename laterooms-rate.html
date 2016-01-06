@@ -11,14 +11,8 @@
     <iron-ajax auto url="{{_url}}" last-response="{{data}}"></iron-ajax>
     <json-select json="{{data}}" select=".room .numeric_price" output="{{rates}}"></json-select>
     <div class="layout center">
-      <div class="layout horizontal">
-        <paper-material class="layout middle" style="max-width: 300px;">
-          <div style="margin:40px;text-align:center;padding: 20px">
-            Laterooms Rate From
-            <p>{{rate}}</p>
-          </div>
-        </paper-material>
-      </div>
+      Laterooms Rate From
+      <p>{{rate}}</p>
     </div>
   </template>
 </dom-module>
