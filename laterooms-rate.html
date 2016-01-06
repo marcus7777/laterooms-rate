@@ -59,7 +59,7 @@
         for (var i = 0; i < nights; ++i) { // this may get 'bad' results
           total = total + (+rates.pop())
         }
-        return moneySym + total
+        return moneySym + total.toFixed(2)
       } else {
         return false
       }
