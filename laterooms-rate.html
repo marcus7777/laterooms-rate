@@ -49,6 +49,8 @@
         '/hotel-reservations/' + hotelId + '.aspx?d=' + year + month + day +
         '&n=' + nights + '&rt=2-0&adult=2&child=0'
         // working link http://www.laterooms.com/en/p3095/hotel-reservations/73022.aspx?d=20151201&n=4&rt=2-0&adult=2&child=0
+      } else {
+        return false
       }
     },
     getRate: function (rates, moneySym, nights) {
